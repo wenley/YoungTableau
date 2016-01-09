@@ -46,7 +46,6 @@ def hook_number(index, row_lengths):
   cells_to_right = row_lengths[row] - col
   cells_below = sum(1 for length in row_lengths if length > col) - row
   hook = cells_to_right + cells_below - 1
-  print 'cell %s in %s is (%s, %s) with hook number %s' % (index, row_lengths, row, col, hook)
 
   return hook
 
@@ -71,7 +70,6 @@ def pick_biggest_cell(row_lengths):
   cell = random.randint(0, n - 1)
 
   while not is_corner(cell, row_lengths):
-    print "Cell is", cell, 'with rows', row_lengths
     # Do a hook walk
 
     # Current cell is index 0 with hook number h
@@ -87,13 +85,11 @@ def pick_biggest_cell(row_lengths):
     else:
       rows_walked = delta - (row_lengths[row] - col) + 1
       new_row, new_col = row + rows_walked, col
-    print 'Walking %s steps from (%s, %s) to (%s, %s) in %s' % (delta, row, col, new_row, new_col, row_lengths)
 
     cell = index_for_coordinates(new_row, new_col, row_lengths)
 
   # Duplicate the row lengths to avoid mutation
   picked_row, picked_col = coordinates(cell, row_lengths)
-  print "Picked corner cell %s in %s with coord (%s, %s)" % (cell, row_lengths, picked_row, picked_col)
   new_row_lengths = TableauRows(row_lengths)
 
   # Compute reduced row lengths
@@ -116,8 +112,8 @@ def random_standard_tableau(row_lengths):
 
 if __name__ == '__main__':
   rows = TableauRows([4, 2, 1])
-  # for i in xrange(7):
-  #   print "Hook number of cell %s in %s : %s" % (i, rows, hook_number(i, rows))
+  for i in xrange(7):
+    print("Hook number of cell {} in {} : {}".format(i, rows, hook_number(i, rows)))
 
-  print random_standard_tableau(TableauRows([6, 4, 1]))
+  print(random_standard_tableau(TableauRows([6, 4, 1])))
 
