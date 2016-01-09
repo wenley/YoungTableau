@@ -1,0 +1,9 @@
+argh==0.26.1         # argh>=0.24.1 << watchdog>=0.8.1 << mamba << requirements file
+args==0.1.0          # args << clint>=0.3.1 << mamba << requirements file
+clint==0.5.1         # clint>=0.3.1 << mamba << requirements file
+coverage==4.0.3      # coverage>=3.7.1 << mamba << requirements file
+expects==0.7.2       # expects << requirements file
+mamba==0.8.6         # mamba << requirements file
+pathtools==0.1.2     # pathtools>=0.1.1 << watchdog>=0.8.1 << mamba << requirements file
+pyyaml==3.11         # PyYAML>=3.10 << watchdog>=0.8.1 << mamba << requirements file
+watchdog==0.8.3      # watchdog>=0.8.1 << mamba << requirements file
