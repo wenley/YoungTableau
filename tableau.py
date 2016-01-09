@@ -6,19 +6,22 @@ class Tableau(object):
   # row_lengths = List of row lengths
   def __init__(self, values, row_lengths):
     self.values = values
-    self.row_lengths = row_lengths
+    self.row_lengths = TableauRows(row_lengths)
 
   def __str__(self):
     row_strings = []
     total = 0
+    box_width = max(len(str(v)) for v in self.values)
+    format_string = "[%% %ss]" % (box_width,)
     for length in self.row_lengths:
       cells = self.values[total:total + length]
       total += length
-      row_strings.append(''.join('[%s]' % (val,) for val in cells))
+      row_strings.append(''.join(format_string % (val,) for val in cells))
     return '\n'.join(row_strings)
 
   def is_standard(self):
-    return False
+    for cell in len(self.values):
+      row, col = coordinates(cell, self.row_lengths)
 
 class TableauRows(list):
   def __init__(self, *args):
@@ -113,8 +116,8 @@ def random_standard_tableau(row_lengths):
 
 if __name__ == '__main__':
   rows = TableauRows([4, 2, 1])
-  for i in xrange(7):
-    print "Hook number of cell %s in %s : %s" % (i, rows, hook_number(i, rows))
+  # for i in xrange(7):
+  #   print "Hook number of cell %s in %s : %s" % (i, rows, hook_number(i, rows))
 
-  print random_standard_tableau(TableauRows([4, 2, 1]))
+  print random_standard_tableau(TableauRows([6, 4, 1]))
 
