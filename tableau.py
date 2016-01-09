@@ -19,19 +19,29 @@ class Tableau(object):
   def is_standard(self):
     return False
 
+class TableauRows(list):
+  def __init__(self, *args):
+    list.__init__(self, *args)
+
+    n = len(self)
+    for i, j in zip(self[:n-1], self[1:]):
+      if i < j:
+        raise Exception, 'Invalid row length %s' % (self,)
+
 def is_corner(index, row_lengths):
   total = 0
   for length in row_lengths:
     total += length
-    if total == index:
+    if total - 1 == index:
       return True
   return False
 
 def hook_number(index, row_lengths):
   row, col = coordinates(index, row_lengths)
+  print 'cell %s in %s is (%s, %s)' % (index, row_lengths, row, col)
 
   cells_to_right = row_lengths[row] - col
-  cells_below = len(row_lengths) - row
+  cells_below = sum(1 for length in row_lengths if length > col) - row
 
   return cells_to_right + cells_below - 1
 
@@ -41,6 +51,7 @@ def coordinates(index, row_lengths):
     if index < length:
       return (row, index)
     index -= length
+    row += 1
   return None
 
 def index_for_coordinates(row, col, row_lengths):
@@ -72,7 +83,7 @@ def pick_biggest_cell(row_lengths):
 
   # Duplicate the row lengths to avoid mutation
   picked_row, _ = coordinates(cell, row_lengths)
-  new_row_lengths = list(row_lengths)
+  new_row_lengths = TableauRows(row_lengths)
 
   # Compute reduced row lengths
   rows = len(new_row_lengths)
@@ -93,5 +104,9 @@ def random_standard_tableau(row_lengths):
   return Tableau(cells, row_lengths)
 
 if __name__ == '__main__':
-  print random_standard_tableau([4, 2, 1])
+  rows = TableauRows([4, 2, 1])
+  for i in xrange(7):
+    print "Hook number of cell %s in %s : %s" % (i, rows, hook_number(i, rows))
+
+  print random_standard_tableau(TableauRows([4, 2, 1]))
 
