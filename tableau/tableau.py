@@ -28,9 +28,12 @@ class TableauRows(list):
     list.__init__(self, *args)
 
     n = len(self)
+    for i in self:
+      if i <= 0:
+        raise ValueError, 'Invalid row length {}'.format(i)
     for i, j in zip(self[:n-1], self[1:]):
       if i < j:
-        raise Exception, 'Invalid row length %s' % (self,)
+        raise ValueError, 'Invalid row length %s' % (self,)
 
 def is_corner(index, row_lengths):
   total = 0
